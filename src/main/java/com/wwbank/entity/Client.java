@@ -1,6 +1,7 @@
 package com.wwbank.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Client")
@@ -50,6 +51,22 @@ public class Client {
 
     public Integer getAge() {
         return age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id) &&
+                Objects.equals(name, client.name) &&
+                Objects.equals(address, client.address) &&
+                Objects.equals(age, client.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, age);
     }
 
     @Override
