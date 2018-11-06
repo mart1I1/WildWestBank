@@ -1,10 +1,9 @@
 package com.wwbank.service.client;
 
-import com.wwbank.dao.ClientDAO;
+import com.wwbank.dao.client.ClientDAO;
 import com.wwbank.entity.Client;
 import com.wwbank.exception.client.ClientAlreadyExistException;
 import com.wwbank.exception.client.ClientNotFoundException;
-import com.wwbank.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

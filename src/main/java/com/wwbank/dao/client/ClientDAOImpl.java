@@ -1,4 +1,4 @@
-package com.wwbank.dao;
+package com.wwbank.dao.client;
 
 import com.wwbank.entity.Client;
 import org.hibernate.Session;

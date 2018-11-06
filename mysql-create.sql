@@ -9,7 +9,7 @@ create table Client(
 create table Account(
     id INT primary key not null auto_increment,
     id_client INT not null,
-    money INT not null);
+    money DOUBLE not null);
 
 create table Transaction(
     id INT primary key not null auto_increment,

@@ -1,6 +1,7 @@
-package com.wwbank.dao;
+package com.wwbank.dao.client;
 
 import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.dao.client.ClientDAO;
 import com.wwbank.entity.Client;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

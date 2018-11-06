@@ -1,14 +1,13 @@
 package com.wwbank.service.client;
 
-import com.wwbank.dao.ClientDAO;
-import com.wwbank.dao.ClientDAOImpl;
+import com.wwbank.dao.client.ClientDAO;
+import com.wwbank.dao.client.ClientDAOImpl;
 import com.wwbank.entity.Client;
 import com.wwbank.exception.client.ClientAlreadyExistException;
 import com.wwbank.exception.client.ClientNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +19,6 @@ class ClientServiceImplTest {
     private ClientDAO clientDAO;
 
     private Client defaultClient = new Client(1,"BANK", "Wild West", 25);
-    private Client client = new Client("Test", "test", 1);
 
     @BeforeEach
     void setUp() {
