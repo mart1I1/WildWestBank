@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,10 @@ public class CriteriaHelper<T extends Criteriable> {
 
     public Predicate createEqualPredicate(String field, Object value) {
         return builder.equal(root.get(field), value);
+    }
+
+    public Predicate createBetweenDatePredicate(String field, Date from, Date to) {
+        return builder.between(root.get(field), from, to);
     }
 
     public void addAndPredicates(Predicate ... predicates) {

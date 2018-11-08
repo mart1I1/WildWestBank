@@ -10,5 +10,6 @@ public interface AccountDAO {
     List findAllByClientId(Integer id_client);
     Optional<Account> findById(Integer id);
     void save(Account account);
+    void update(Account account);
 
 }

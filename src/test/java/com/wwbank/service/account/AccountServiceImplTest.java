@@ -4,6 +4,7 @@ import com.wwbank.dao.account.AccountDAO;
 import com.wwbank.dao.account.AccountDAOImpl;
 import com.wwbank.entity.Account;
 import com.wwbank.entity.Client;
+import com.wwbank.exception.account.AccountNotEnoughMoneyException;
 import com.wwbank.exception.account.AccountNotFoundException;
 import com.wwbank.exception.client.ClientNotFoundException;
 import com.wwbank.service.client.ClientService;
@@ -72,5 +73,60 @@ class AccountServiceImplTest {
         when(clientService.findById(anyInt())).thenThrow(ClientNotFoundException.class);
         assertThrows(ClientNotFoundException.class, () -> accountService.createAccountForClientId(defaultClient.getId()));
         verify(accountDAO, times(0)).save(new Account(defaultClient.getId(), 0.0));
+    }
+
+    @Test
+    void putMoneyById() throws AccountNotFoundException {
+        Double delta = 1234.0;
+        Double money = defaultAccount.getMoney();
+
+        when(accountDAO.findById(defaultAccount.getId())).thenReturn(Optional.ofNullable(defaultAccount));
+
+        accountService.putMoneyById(defaultAccount.getId(), delta);
+        money += delta;
+
+        verify(accountDAO, times(1)).update(defaultAccount);
+        assertEquals(money, defaultAccount.getMoney());
+    }
+
+    @Test
+    void putMoneyByIdNotFound() {
+        when(accountDAO.findById(anyInt())).thenReturn(Optional.empty());
+        assertThrows(AccountNotFoundException.class, () -> accountService.putMoneyById(defaultAccount.getId(), anyDouble()));
+    }
+
+    @Test
+    void withdrawMoneyById() throws AccountNotFoundException, AccountNotEnoughMoneyException {
+        Double delta = 1234.0;
+        Double money = defaultAccount.getMoney();
+
+        when(accountDAO.findById(defaultAccount.getId())).thenReturn(Optional.ofNullable(defaultAccount));
+
+        accountService.withdrawMoneyById(defaultAccount.getId(), delta);
+        money -= delta;
+
+        verify(accountDAO, times(1)).update(defaultAccount);
+        assertEquals(money, defaultAccount.getMoney());
+    }
+
+    @Test
+    void withdrawMoneyByIdNotEnoughMoney() {
+        Double delta = 1234.0;
+        Double money = defaultAccount.getMoney();
+
+        when(accountDAO.findById(defaultAccount.getId())).thenReturn(Optional.ofNullable(defaultAccount));
+        assertThrows(
+                AccountNotEnoughMoneyException.class,
+                () -> accountService.withdrawMoneyById(defaultAccount.getId(), money + delta)
+        );
+    }
+
+    @Test
+    void withdrawMoneyByIdNotFound() {
+        when(accountDAO.findById(anyInt())).thenReturn(Optional.empty());
+        assertThrows(
+                AccountNotFoundException.class,
+                () -> accountService.withdrawMoneyById(defaultAccount.getId(), anyDouble())
+        );
     }
 }

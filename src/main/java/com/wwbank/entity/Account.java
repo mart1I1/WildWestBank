@@ -32,6 +32,10 @@ public class Account implements Criteriable {
         return money;
     }
 
+    public void setMoney(Double money) {
+        this.money = money;
+    }
+
     public Account() {
     }
 

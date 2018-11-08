@@ -46,6 +46,11 @@ public class AccountDAOImpl implements AccountDAO {
         getCurrentSession().save(account);
     }
 
+    @Override
+    public void update(Account account) {
+        getCurrentSession().update(account);
+    }
+
     private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }

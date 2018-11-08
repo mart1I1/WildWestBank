@@ -18,7 +18,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:application.properties-test"})
-@ComponentScan("com.wwbank.dao")
+@ComponentScan({"com.wwbank.dao", "com.wwbank.service"})
 public class PersistenceConfigTest{
 
     @Autowired

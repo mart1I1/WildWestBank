@@ -13,10 +13,10 @@ create table Account(
 
 create table Transaction(
     id INT primary key not null auto_increment,
-    id_sender INT not null,
-    id_receiver INT not null,
-    money INT not null,
-    date VARCHAR(100) not null);
+    id_acc_sender INT not null,
+    id_acc_receiver INT not null,
+    date DATE not null,
+    money INT not null);
 
 insert into Client(
     NULL,

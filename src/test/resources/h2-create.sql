@@ -11,16 +11,22 @@ create table Account(
 
 create table Transaction(
     id INT not null auto_increment primary key,
-    id_sender INT not null,
-    id_receiver INT not null,
-    money INT not null,
-    date VARCHAR(100) not null);
+    id_acc_sender INT not null,
+    id_acc_receiver INT not null,
+    date TIMESTAMP not null,
+    money INT not null);
 
 insert into Client values(
     NULL,
     'BANK',
     'Wild West',
     25);
+
+insert into Client values(
+     NULL,
+     'Test',
+     'test',
+      1);
 
 insert into Account values(
     NULL,

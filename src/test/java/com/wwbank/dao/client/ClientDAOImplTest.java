@@ -26,14 +26,8 @@ class ClientDAOImplTest {
 
     @Autowired
     private ClientDAO clientDAO;
-    private Client client;
+    private Client client = new Client(2,"Test", "test", 1);;
     private Client defaultClient = new Client(1,"BANK", "Wild West", 25);
-
-    @BeforeEach
-    void setUp() throws Exception {
-        client = new Client("Test", "test", 1);
-        this.clientDAO.save(client);
-    }
 
     @Test
     void findAll() {

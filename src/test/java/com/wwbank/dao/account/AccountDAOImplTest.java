@@ -54,4 +54,19 @@ class AccountDAOImplTest {
         accountDAO.save(newAccount);
         assertTrue(accountDAO.findAllByClientId(newAccount.getId_client()).contains(newAccount));
     }
+
+    @Test
+    void update() {
+        Double money = account.getMoney();
+
+        assertTrue(accountDAO.findById(account.getId()).isPresent());
+        assertEquals(money, accountDAO.findById(account.getId()).get().getMoney());
+
+        money -= 1000;
+        account.setMoney(money);
+        accountDAO.update(account);
+
+        assertTrue(accountDAO.findById(account.getId()).isPresent());
+        assertEquals(money, accountDAO.findById(account.getId()).get().getMoney());
+    }
 }
