@@ -12,8 +12,8 @@ public interface TransactionDAO {
 
     List<Transaction> findAll();
     List<Transaction> findAllBetweenDates(Date from, Date to);
-//    List<Transaction> findAllForSenderAcc(Integer id_acc_sender);
-//    List<Transaction> findAllForReceiverAcc(Integer id_acc_receiver);
+    List<Transaction> findAllBySenderId(Integer id_acc_sender);
+    List<Transaction> findAllByReceiverId(Integer id_acc_receiver);
     Optional<Transaction> findById(Integer id);
     void save(Transaction transaction);
 

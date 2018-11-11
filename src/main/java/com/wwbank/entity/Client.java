@@ -1,6 +1,9 @@
 package com.wwbank.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -13,12 +16,15 @@ public class Client {
     private Integer id;
 
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     @Column(name = "address")
+    @NotEmpty
     private String address;
 
     @Column(name = "age")
+    @NotNull @Min(1)
     private Integer age;
 
     public Client() {
@@ -27,6 +33,18 @@ public class Client {
     public Client(String name, String address, Integer age) {
         this.name = name;
         this.address = address;
+        this.age = age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setAge(Integer age) {
         this.age = age;
     }
 

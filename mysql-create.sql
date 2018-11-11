@@ -15,8 +15,8 @@ create table Transaction(
     id INT primary key not null auto_increment,
     id_acc_sender INT not null,
     id_acc_receiver INT not null,
-    date DATE not null,
-    money INT not null);
+    date TIMESTAMP not null,
+    money DOUBLE not null);
 
 insert into Client(
     NULL,

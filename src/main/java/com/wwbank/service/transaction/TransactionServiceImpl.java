@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,20 +64,26 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<Transaction> findAllIncludingAccId(Integer accId) {
+        List<Transaction> result = transactionDAO.findAllByReceiverId(accId);
+        result.addAll(transactionDAO.findAllBySenderId(accId));
+        return result;
+    }
+
+
+    @Override
     public Transaction findById(Integer id) throws AccountNotFoundException {
         return transactionDAO.findById(id).orElseThrow(AccountNotFoundException::new);
     }
 
     @Override
     @Transactional(rollbackOn = {AccountNotFoundException.class, AccountNotEnoughMoneyException.class})
-    public void transferMoney(Integer id_acc_sender, Integer id_acc_receiver, Double money)
+    public void transferMoney(Transaction transaction)
             throws AccountNotFoundException, AccountNotEnoughMoneyException {
-        Account accountSender = accountService.findById(id_acc_sender);
-        Account accountReceiver = accountService.findById(id_acc_receiver);
-        if (accountSender.getMoney() - money < 0)
-            throw new AccountNotEnoughMoneyException();
-        accountSender.setMoney(accountSender.getMoney() - money);
-        accountReceiver.setMoney(accountReceiver.getMoney() + money);
-        transactionDAO.save(new Transaction(accountSender.getId(), accountReceiver.getId(), new Date(), money));
+        Account accountSender = accountService.findById(transaction.getIdAccSender());
+        Account accountReceiver = accountService.findById(transaction.getIdAccReceiver());
+        accountService.withdrawMoneyById(accountSender.getId(), transaction.getMoney());
+        accountService.putMoneyById(accountReceiver.getId(), transaction.getMoney());
+        transactionDAO.save(transaction);
     }
 }

@@ -58,6 +58,22 @@ public class Transaction implements Criteriable {
         return money;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setIdAccSender(Integer idAccSender) {
+        this.idAccSender = idAccSender;
+    }
+
+    public void setIdAccReceiver(Integer idAccReceiver) {
+        this.idAccReceiver = idAccReceiver;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

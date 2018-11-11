@@ -45,21 +45,21 @@ public class TransactionDAOImpl implements TransactionDAO {
         return criteriaHelper.getResultList();
     }
 
-//    @Override
-//    public List<Transaction> findAllForSenderAcc(Integer id_acc_sender) {
-//        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
-//        Predicate predicate = criteriaHelper.createEqualPredicate("id_acc_sender", id_acc_sender);
-//        criteriaHelper.addAndPredicates(predicate);
-//        return criteriaHelper.getResultList();
-//    }
-//
-//    @Override
-//    public List<Transaction> findAllForReceiverAcc(Integer id_acc_receiver) {
-//        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
-//        Predicate predicate = criteriaHelper.createEqualPredicate("id_acc_receiver", from, to);
-//        criteriaHelper.addAndPredicates(predicate);
-//        return criteriaHelper.getResultList();
-//    }
+    @Override
+    public List<Transaction> findAllBySenderId(Integer idAccSender) {
+        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        Predicate predicate = criteriaHelper.createEqualPredicate("idAccSender", idAccSender);
+        criteriaHelper.addAndPredicates(predicate);
+        return criteriaHelper.getResultList();
+    }
+
+    @Override
+    public List<Transaction> findAllByReceiverId(Integer idAccReceiver) {
+        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        Predicate predicate = criteriaHelper.createEqualPredicate("idAccReceiver", idAccReceiver);
+        criteriaHelper.addAndPredicates(predicate);
+        return criteriaHelper.getResultList();
+    }
 
     @Override
     public Optional<Transaction> findById(Integer id) {

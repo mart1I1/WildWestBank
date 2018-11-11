@@ -14,7 +14,7 @@ create table Transaction(
     id_acc_sender INT not null,
     id_acc_receiver INT not null,
     date TIMESTAMP not null,
-    money INT not null);
+    money DOUBLE not null);
 
 insert into Client values(
     NULL,

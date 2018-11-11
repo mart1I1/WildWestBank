@@ -1,0 +1,58 @@
+div {
+    padding: 10px;
+}
+
+ul.hr {
+    margin: 0;
+    padding: 4px 4px 4px 0;
+}
+ul.hr li {
+    display: inline;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+table, th, td {
+    border: 1px solid black;
+    /*border-collapse: collapse;*/
+}
+
+caption {
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+.noneLastBorder table:last-of-type {
+    border:none;
+}
+
+.noneLastBorder td:last-of-type {
+    border:none;
+}
+
+.noneLastBorder th:last-of-type {
+    border:none;
+}
+
+.link a:link {
+    text-decoration: none;
+}
+.link a:visited {
+    text-decoration: none;
+}
+.link a:hover {
+    text-decoration: underline;
+}
+.link a:active {
+    text-decoration: underline;
+}
+.link a {
+    font-size: 20px;
+}

@@ -13,7 +13,8 @@ public interface TransactionService {
     List<Transaction> findAll();
     List<Transaction> findAllByName(String name);
     List<Transaction> findAllByDate(Date from, Date to);
+    List<Transaction> findAllIncludingAccId(Integer accId);
     Transaction findById(Integer id) throws AccountNotFoundException;
-    void transferMoney(Integer id_acc_sender, Integer id_acc_receiver, Double money) throws AccountNotFoundException, AccountNotEnoughMoneyException;
+    void transferMoney(Transaction transaction) throws AccountNotFoundException, AccountNotEnoughMoneyException;
 
 }
