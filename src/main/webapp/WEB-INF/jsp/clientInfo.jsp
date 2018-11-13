@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>ClientInfo</title>
+    <title>Информация о клиенте</title>
     <link href=${pageContext.request.contextPath}/resources/style.css rel="stylesheet">
 </head>
 <body>
@@ -29,7 +29,7 @@
                 <td>${client.getName()}</td>
                 <td>${client.getAddress()}</td>
                 <td>${client.getAge()}</td>
-                <td>0</td>
+                <td>${balance}</td>
             </tr>
         </table>
     </div>

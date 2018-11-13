@@ -1,0 +1,4 @@
+error.client.exist=Client already exist
+error.client.notfound=Client not found
+error.money.notenough=Not enough money
+error.account.id=Wrong account id

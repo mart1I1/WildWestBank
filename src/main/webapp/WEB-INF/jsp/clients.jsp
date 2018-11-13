@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Clients</title>
+    <title>Клиенты</title>
     <link href=${pageContext.request.contextPath}/resources/style.css rel="stylesheet">
 </head>
 <body>

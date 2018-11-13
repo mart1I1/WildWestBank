@@ -4,6 +4,7 @@ import com.wwbank.entity.Client;
 import com.wwbank.entity.Transaction;
 import com.wwbank.exception.account.AccountNotEnoughMoneyException;
 import com.wwbank.exception.account.AccountNotFoundException;
+import com.wwbank.exception.transaction.TransactionNotFoundException;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface TransactionService {
     List<Transaction> findAllByName(String name);
     List<Transaction> findAllByDate(Date from, Date to);
     List<Transaction> findAllIncludingAccId(Integer accId);
-    Transaction findById(Integer id) throws AccountNotFoundException;
+    Transaction findById(Integer id) throws TransactionNotFoundException;
     void transferMoney(Transaction transaction) throws AccountNotFoundException, AccountNotEnoughMoneyException;
 
 }

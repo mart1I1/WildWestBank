@@ -34,7 +34,7 @@ public class TransactionController {
 //        return modelAndView;
 //    }
 
-    @RequestMapping()
+    @RequestMapping
     public ModelAndView search(@RequestParam(value = "acc_id", required = false) Integer acc_id,
                                @RequestParam(value = "name", required = false) String name,
                                @RequestParam(value = "date_from", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date date_from,

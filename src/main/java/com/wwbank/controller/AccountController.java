@@ -11,10 +11,12 @@ import com.wwbank.service.client.ClientService;
 import com.wwbank.service.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 import java.util.Date;
 
 @Controller
@@ -47,31 +49,30 @@ public class AccountController {
         return modelAndView;
     }
 
-    @RequestMapping(
-            value = "/transfer",
-            method = RequestMethod.POST)
-    public String transferMoney(@ModelAttribute("transaction") Transaction transaction) {
-//        Transaction transaction = new Transaction(idAccSender, idAccReceiver, date, money);
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    public String transferMoney(@Valid @ModelAttribute("transaction") Transaction transaction, BindingResult result) {
         try {
-            //TODO: что-то с датой сделать. откуда ее брать?
+            if (result.hasErrors())
+                return "transfer";
             transactionService.transferMoney(transaction);
         } catch (AccountNotFoundException e) {
-            e.printStackTrace();
+            result.rejectValue("", "error.account.id");
+            return "transfer";
         } catch (AccountNotEnoughMoneyException e) {
-            e.printStackTrace();
+            result.rejectValue("money", "error.money.notenough");
+            return "transfer";
         }
-        return "redirect:/clients";
+        return "redirect:/transfer";
     }
 
-    @RequestMapping(
-            value = "/add",
-            method = RequestMethod.POST)
-    public String addAccount(@RequestParam("idClient") Integer idClient) {
-        try {
-            accountService.createAccountForClientId(idClient);
-        } catch (ClientNotFoundException e) {
-            e.printStackTrace();
-        }
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addAccount(@RequestParam("idClient") Integer idClient) throws ClientNotFoundException {
+        accountService.createAccountForClientId(idClient);
         return "redirect:/clients/" + idClient;
+    }
+
+    @ModelAttribute("transaction")
+    public Transaction transaction() {
+        return new Transaction();
     }
 }

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -129,4 +130,13 @@ class AccountServiceImplTest {
                 () -> accountService.withdrawMoneyById(defaultAccount.getId(), anyDouble())
         );
     }
+
+    @Test
+    void findBalanceForClientId() {
+        List<Account> list = Arrays.asList(defaultAccount);
+        Double balance = list.stream().mapToDouble(Account::getMoney).sum();
+        when(accountDAO.findAllByClientId(defaultClient.getId())).thenReturn(list);
+        assertEquals(balance, accountService.findBalanceForClientId(defaultClient.getId()));
+    }
+
 }

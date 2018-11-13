@@ -2,9 +2,11 @@ package com.wwbank.service.transaction;
 
 import com.wwbank.dao.transaction.TransactionDAO;
 import com.wwbank.entity.Account;
+import com.wwbank.entity.Client;
 import com.wwbank.entity.Transaction;
 import com.wwbank.exception.account.AccountNotEnoughMoneyException;
 import com.wwbank.exception.account.AccountNotFoundException;
+import com.wwbank.exception.transaction.TransactionNotFoundException;
 import com.wwbank.service.account.AccountService;
 import com.wwbank.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +74,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public Transaction findById(Integer id) throws AccountNotFoundException {
-        return transactionDAO.findById(id).orElseThrow(AccountNotFoundException::new);
+    public Transaction findById(Integer id) throws TransactionNotFoundException {
+        return transactionDAO.findById(id).orElseThrow(TransactionNotFoundException::new);
     }
 
     @Override

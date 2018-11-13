@@ -10,10 +10,11 @@ import java.util.List;
 
 public interface AccountService {
 
-    List<Account> findAllByClientId(Integer id_client);
+    List<Account> findAllByClientId(Integer idClient);
     Account findById(Integer id) throws AccountNotFoundException;
-    void createAccountForClientId(Integer id_client) throws ClientNotFoundException;
-    void putMoneyById(Integer id_acc, Double money) throws AccountNotFoundException;
-    void withdrawMoneyById(Integer id_acc, Double money) throws AccountNotFoundException, AccountNotEnoughMoneyException;
+    Double findBalanceForClientId(Integer idClient);
+    void createAccountForClientId(Integer idClient) throws ClientNotFoundException;
+    void putMoneyById(Integer idAcc, Double money) throws AccountNotFoundException;
+    void withdrawMoneyById(Integer idAcc, Double money) throws AccountNotFoundException, AccountNotEnoughMoneyException;
 
 }

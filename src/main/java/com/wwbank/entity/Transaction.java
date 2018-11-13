@@ -3,6 +3,9 @@ package com.wwbank.entity;
 import com.wwbank.util.Criteriable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,9 +19,11 @@ public class Transaction implements Criteriable {
     private Integer id;
 
     @Column(name = "id_acc_sender")
+    @NotNull @Positive
     private Integer idAccSender;
 
     @Column(name = "id_acc_receiver")
+    @NotNull @Positive
     private Integer idAccReceiver;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,6 +31,7 @@ public class Transaction implements Criteriable {
     private Date date;
 
     @Column(name = "money")
+    @NotNull @Positive
     private Double money;
 
     public Transaction() {

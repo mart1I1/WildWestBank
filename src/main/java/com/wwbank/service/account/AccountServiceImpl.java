@@ -28,8 +28,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAllByClientId(Integer id_client) {
-        return accountDAO.findAllByClientId(id_client);
+    public List<Account> findAllByClientId(Integer idClient) {
+        return accountDAO.findAllByClientId(idClient);
     }
 
     @Override
@@ -38,22 +38,27 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void createAccountForClientId(Integer id_client) throws ClientNotFoundException {
-        clientService.findById(id_client);
-        accountDAO.save(new Account(id_client, 0.0));
+    public Double findBalanceForClientId(Integer idClient) {
+        return findAllByClientId(idClient).stream().mapToDouble(Account::getMoney).sum();
     }
 
     @Override
-    public void putMoneyById(Integer id_acc, Double money) throws AccountNotFoundException {
-        Account account = findById(id_acc);
+    public void createAccountForClientId(Integer idClient) throws ClientNotFoundException {
+        clientService.findById(idClient);
+        accountDAO.save(new Account(idClient, 0.0));
+    }
+
+    @Override
+    public void putMoneyById(Integer idAcc, Double money) throws AccountNotFoundException {
+        Account account = findById(idAcc);
         account.setMoney(account.getMoney() + money);
         accountDAO.update(account);
     }
 
     @Override
-    public void withdrawMoneyById(Integer id_acc, Double money)
+    public void withdrawMoneyById(Integer idAcc, Double money)
             throws AccountNotFoundException, AccountNotEnoughMoneyException {
-        Account account = findById(id_acc);
+        Account account = findById(idAcc);
         if (account.getMoney() - money < 0) throw new AccountNotEnoughMoneyException();
         account.setMoney(account.getMoney() - money);
         accountDAO.update(account);

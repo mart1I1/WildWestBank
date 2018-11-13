@@ -40,13 +40,11 @@ public class ClientController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView findAllClientsAndBalance(@Valid @ModelAttribute("clientModel") Client client, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView();
-        //TODO: Добавить findALl в account либо метод баланса для client_id
-        List<Pair<Client, Double>> clientAndBalance = clientService.findAll().stream()
+        List<Pair<Client, Double>> clientAndBalance = clientService.findAll()
+                .stream()
                 .map(it -> new Pair<>(
                                 it,
-                                accountService.findAllByClientId(it.getId()).stream()
-                                        .mapToDouble(Account::getMoney)
-                                        .sum()
+                                accountService.findBalanceForClientId(it.getId())
                         )
                 )
                 .collect(Collectors.toList());
@@ -68,21 +66,19 @@ public class ClientController {
             }
             clientService.addClient(client);
         } catch (ClientAlreadyExistException e) {
-            e.printStackTrace();
+            result.rejectValue("", "error.client.exist");
+            return "addClient";
         }
         return "redirect:/clients";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView clientInfo(@PathVariable("id") Integer id) {
+    public ModelAndView clientInfo(@PathVariable("id") Integer id) throws ClientNotFoundException {
         ModelAndView modelAndView = new ModelAndView();
-        try {
-            Client client = clientService.findById(id);
-            modelAndView.getModel().put("client", client);
-            modelAndView.getModel().put("accounts", accountService.findAllByClientId(client.getId()));
-        } catch (ClientNotFoundException e) {
-            modelAndView.getModel().put("notFound", true);
-        }
+        Client client = clientService.findById(id);
+        modelAndView.getModel().put("client", client);
+        modelAndView.getModel().put("balance",accountService.findBalanceForClientId(client.getId()));
+        modelAndView.getModel().put("accounts", accountService.findAllByClientId(client.getId()));
         modelAndView.setViewName("clientInfo");
         return modelAndView;
     }

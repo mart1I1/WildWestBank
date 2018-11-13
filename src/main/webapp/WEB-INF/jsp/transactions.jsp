@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Fedor
@@ -9,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Transactions</title>
+    <title>Транзакции</title>
     <link href=${pageContext.request.contextPath}/resources/style.css rel="stylesheet">
     <script>
         function disableEmptyInputs(form) {
@@ -34,34 +35,24 @@
             <table>
                 <caption>Фильтр:</caption>
                 <tr>
+                    <td>Имя</td>
+                    <td><input type="text" name="name" value="${name}"></td>
+                </tr>
+                <tr>
+                    <td>Номер счета</td>
+                    <td><input type="number" name="acc_id" value="${acc_id}"></td>
+                </tr>
+                <tr>
+                    <td>Дата</td>
                     <td>
-                        Имя
-                    </td>
-                    <td>
-                        <input type="text" name="name" value="${name}">
+                        От <input type="date" name="date_from" value="${date_from}">
+                        До <input type="date" name="date_to" value="${date_to}">
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        Номер счета
-                    </td>
-                    <td>
-                        <input type="number" name="acc_id" value="${acc_id}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Дата
-                    </td>
-                    <td>
-                        От
-                        <input type="date" name="date_from" value="${date_from}">
-                        До
-                        <input type="date" name="date_to" value="${date_to}">
-                    </td>
+                    <td class="last"><input type="submit" value="Поиск"></td>
                 </tr>
             </table>
-            <input type="submit" value="Поиск">
         </form>
     </div>
 
@@ -79,7 +70,7 @@
                     <td>${transaction.getIdAccSender()}</td>
                     <td>${transaction.getIdAccReceiver()}</td>
                     <td>${transaction.getMoney()}</td>
-                    <td>${transaction.getDate()}</td>
+                    <td><fmt:formatDate value="${transaction.getDate()}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                 </tr>
             </c:forEach>
         </table>

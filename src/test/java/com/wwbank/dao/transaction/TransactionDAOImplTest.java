@@ -75,4 +75,18 @@ class TransactionDAOImplTest {
         assertEquals(newTransaction.getId(), predictedId);
         assertTrue(transactionDAO.findById(newTransaction.getId()).isPresent());
     }
+
+    @Test
+    void findAllBySenderId() {
+        assertAll(
+                () -> assertEquals(Arrays.asList(transaction1, transaction2), transactionDAO.findAllBySenderId(transaction1.getIdAccSender())),
+                () -> assertEquals(Collections.emptyList(), transactionDAO.findAllBySenderId(transaction1.getIdAccSender() + 1)));
+    }
+
+    @Test
+    void findAllByReceiverId() {
+        assertAll(
+                () -> assertEquals(Arrays.asList(transaction1, transaction2), transactionDAO.findAllByReceiverId(transaction1.getIdAccReceiver())),
+                () -> assertEquals(Collections.emptyList(), transactionDAO.findAllByReceiverId(transaction1.getIdAccReceiver() + 1)));
+    }
 }

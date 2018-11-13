@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="for" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Accounts</title>
+    <title>Переводы</title>
     <link href=${pageContext.request.contextPath}/resources/style.css rel="stylesheet">
     <script>
         function setDate()
@@ -23,25 +24,32 @@
         </ul>
     </div>
 
-    <div>
+    <div class="noneLastBorder">
         <form:form modelAttribute="transaction" method="post" action="/accounts/transfer" onsubmit="setDate()">
             <table>
                 <caption>Выполнить перевод:</caption>
                 <tr>
                     <td>Номер счет отправителя</td>
-                    <td><input type="number" name="idAccSender" id="idAccSender" value="${acc_id}"/></td>
+                    <td><input type="number" name="idAccSender"/></td>
+                    <td><form:errors path="idAccSender" cssClass="error"/></td>
                 </tr>
                 <tr>
                     <td>Номер счета получателя</td>
-                    <td><input type="number" name="idAccReceiver" id="idAccReceiver" /></td>
+                    <td><input type="number" name="idAccReceiver" /></td>
+                    <td><form:errors path="idAccReceiver" cssClass="error"/></td>
                 </tr>
                 <tr>
                     <td>Сумма</td>
-                    <td><input type="number" name="money" id="money" /></td>
+                    <td><input type="number" name="money" /></td>
+                    <td><form:errors path="money" cssClass="error"/></td>
                 </tr>
+                <tr>
+                    <td class="last"></td>
+                    <td class="last"><input type="submit" style="display: inline; vertical-align: bottom;"/></td>
+                    <td><form:errors path="" cssClass="error"/></td>
+                </tr>
+                <input type="hidden" id="currDate" name="date">
             </table>
-            <input type="hidden" id="currDate" name="date">
-            <input type="submit" style="display: inline; vertical-align: bottom;"/>
         </form:form>
     </div>
 </body>

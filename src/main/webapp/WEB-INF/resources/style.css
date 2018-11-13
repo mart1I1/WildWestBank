@@ -13,9 +13,17 @@ ul.hr li {
     border: 1px solid black;
 }
 
-table, th, td {
+table {
+    border-collapse: collapse;
+}
+
+th, td {
     border: 1px solid black;
-    /*border-collapse: collapse;*/
+}
+
+td.last
+{
+    border: none;
 }
 
 caption {
@@ -27,6 +35,10 @@ caption {
 th, td {
     padding: 10px;
     text-align: center;
+}
+
+form {
+    margin: 0 auto;
 }
 
 .noneLastBorder table:last-of-type {

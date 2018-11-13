@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Добавить</title>
+    <title>Добавить клиента</title>
     <link href=${pageContext.request.contextPath}/resources/style.css rel="stylesheet">
 </head>
 <body>
@@ -38,11 +38,15 @@
                 </tr>
                 <tr>
                     <td>Возраст</td>
-                    <td><form:input path="age" /></td>
+                    <td><input type="number" name="age"></td>
                     <td><form:errors path="age" cssClass="error"/></td>
                 </tr>
+                <tr>
+                    <td class="last"></td>
+                    <td class="last"><input type="submit" value="Добавить"/></td>
+                    <td><form:errors path="" cssClass="error"/></td>
+                </tr>
             </table>
-            <input type="submit" value="Добавить"/>
         </form:form>
     </div>
 
