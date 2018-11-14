@@ -27,7 +27,6 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    //TODO: не запоминается дата
     @RequestMapping
     public ModelAndView search(@RequestParam(value = "acc_id", required = false) Integer acc_id,
                                @RequestParam(value = "name", required = false) String name,

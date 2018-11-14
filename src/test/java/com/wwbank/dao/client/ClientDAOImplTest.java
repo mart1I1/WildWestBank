@@ -1,13 +1,12 @@
 package com.wwbank.dao.client;
 
-import com.wwbank.config.PersistenceConfigTest;
-import com.wwbank.dao.client.ClientDAO;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.entity.Client;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -17,9 +16,10 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("unit-test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
-        classes = {PersistenceConfigTest.class},
+        classes = {PersistenceConfig.class, ClientDAOImpl.class},
         loader = AnnotationConfigContextLoader.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ClientDAOImplTest {

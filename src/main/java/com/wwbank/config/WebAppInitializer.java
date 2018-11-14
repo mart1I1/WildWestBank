@@ -13,7 +13,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(WebConfig.class, SpringConfig.class, PersistenceConfig.class);
+        context.register(WebConfig.class, SpringConfig.class, PersistenceConfig.class, MySqlDataConfig.class);
         context.setServletContext(servletContext);
 
         DispatcherServlet servlet = new DispatcherServlet(context);

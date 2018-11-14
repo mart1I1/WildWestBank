@@ -12,19 +12,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class CriteriaHelper<T extends Criteriable> {
+public class CriteriaHelper {
 
-    private Class<T> clazz;
+    private Class clazz;
     private Session session;
     private CriteriaBuilder builder;
-    private CriteriaQuery<T> criteriaQuery;
-    private Root<T> root;
+    private CriteriaQuery criteriaQuery;
+    private Root root;
 
-    public CriteriaQuery<T> getCriteriaQuery() {
+    public CriteriaQuery getCriteriaQuery() {
         return criteriaQuery;
     }
 
-    public Class<T> getClazz() {
+    public Class getClazz() {
         return clazz;
     }
 
@@ -36,7 +36,7 @@ public class CriteriaHelper<T extends Criteriable> {
         return builder;
     }
 
-    public CriteriaHelper(Session session, Class<T> clazz) {
+    public CriteriaHelper(Session session, Class<? extends Criteriable> clazz) {
         this.session = session;
         this.clazz = clazz;
         this.builder = session.getCriteriaBuilder();
@@ -44,7 +44,7 @@ public class CriteriaHelper<T extends Criteriable> {
     }
 
     private void createCriteriaQuery() {
-        CriteriaQuery<T> criteria = builder.createQuery(clazz);
+        CriteriaQuery criteria = builder.createQuery(clazz);
         root = criteria.from(clazz);
         criteria.select(root);
         criteriaQuery = criteria;
@@ -62,11 +62,11 @@ public class CriteriaHelper<T extends Criteriable> {
         criteriaQuery.where(builder.and(predicates));
     }
 
-    public Optional<T> getUniqueResultOptional() {
+    public Optional getUniqueResultOptional() {
         return session.createQuery(criteriaQuery).uniqueResultOptional();
     }
 
-    public List<T> getResultList() {
+    public List getResultList() {
         return session.createQuery(criteriaQuery).getResultList();
     }
 

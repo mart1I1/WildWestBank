@@ -3,6 +3,8 @@ package com.wwbank.entity;
 import com.wwbank.util.Criteriable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @Entity
@@ -15,17 +17,19 @@ public class Account implements Criteriable {
     private Integer id;
 
     @Column(name = "id_client")
-    private Integer id_client;
+    @NotNull @Positive
+    private Integer idClient;
 
     @Column(name = "money")
+    @NotNull
     private Double money;
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getId_client() {
-        return id_client;
+    public Integer getIdClient() {
+        return idClient;
     }
 
     public Double getMoney() {
@@ -39,14 +43,14 @@ public class Account implements Criteriable {
     public Account() {
     }
 
-    public Account(Integer id_client, Double money) {
-        this.id_client = id_client;
+    public Account(Integer idClient, Double money) {
+        this.idClient = idClient;
         this.money = money;
     }
 
-    public Account(Integer id, Integer id_client, Double money) {
+    public Account(Integer id, Integer idClient, Double money) {
         this.id = id;
-        this.id_client = id_client;
+        this.idClient = idClient;
         this.money = money;
     }
 
@@ -56,20 +60,20 @@ public class Account implements Criteriable {
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
         return Objects.equals(id, account.id) &&
-                Objects.equals(id_client, account.id_client) &&
+                Objects.equals(idClient, account.idClient) &&
                 Objects.equals(money, account.money);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, id_client, money);
+        return Objects.hash(id, idClient, money);
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", id_client=" + id_client +
+                ", idClient=" + idClient +
                 ", money=" + money +
                 '}';
     }

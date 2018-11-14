@@ -1,12 +1,10 @@
 package com.wwbank.controller;
 
-import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.config.WebConfig;
 import com.wwbank.entity.Transaction;
 import com.wwbank.exception.account.AccountNotEnoughMoneyException;
-import com.wwbank.exception.account.AccountNotFoundException;
 import com.wwbank.service.account.AccountService;
-import com.wwbank.service.transaction.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //TODO: проверка @Valid
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {PersistenceConfigTest.class, WebConfig.class},
+@ContextConfiguration(classes = {WebConfig.class},
         loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 class AccountControllerTest {
@@ -63,20 +60,13 @@ class AccountControllerTest {
     @Test
     void transferMoney() throws Exception {
         mockMvc.perform(post("/accounts/transfer").flashAttr("transaction", transaction))
-                .andExpect(redirectedUrl("/transfer"));
+                .andExpect(redirectedUrl("/accounts/transfer"));
         verify(accountService, times(1)).transferMoney(transaction);
     }
 
     @Test
     void transferMoneyAccountNotEnoughMoney() throws Exception {
         doThrow(AccountNotEnoughMoneyException.class).when(accountService).transferMoney(transaction);
-        mockMvc.perform(post("/accounts/transfer").flashAttr("transaction", transaction))
-                .andExpect(model().attributeHasFieldErrors("transaction","money"))
-                .andExpect(view().name("transferView"));
-    }
-
-    @Test
-    void transferMoneyNotValidId() throws Exception {
         mockMvc.perform(post("/accounts/transfer").flashAttr("transaction", transaction))
                 .andExpect(model().attributeHasFieldErrors("transaction","money"))
                 .andExpect(view().name("transferView"));

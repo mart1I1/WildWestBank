@@ -32,14 +32,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> findAll() {
-        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        CriteriaHelper criteriaHelper = new CriteriaHelper(getCurrentSession(), Transaction.class);
         return criteriaHelper.getResultList();
     }
 
-
     @Override
     public List<Transaction> findAllBetweenDates(Date from, Date to) {
-        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        CriteriaHelper criteriaHelper = new CriteriaHelper(getCurrentSession(), Transaction.class);
         Predicate predicate = criteriaHelper.createBetweenDatePredicate("date", from, to);
         criteriaHelper.addAndPredicates(predicate);
         return criteriaHelper.getResultList();
@@ -47,7 +46,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> findAllBySenderId(Integer idAccSender) {
-        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        CriteriaHelper criteriaHelper = new CriteriaHelper(getCurrentSession(), Transaction.class);
         Predicate predicate = criteriaHelper.createEqualPredicate("idAccSender", idAccSender);
         criteriaHelper.addAndPredicates(predicate);
         return criteriaHelper.getResultList();
@@ -55,7 +54,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> findAllByReceiverId(Integer idAccReceiver) {
-        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Transaction.class);
+        CriteriaHelper criteriaHelper = new CriteriaHelper(getCurrentSession(), Transaction.class);
         Predicate predicate = criteriaHelper.createEqualPredicate("idAccReceiver", idAccReceiver);
         criteriaHelper.addAndPredicates(predicate);
         return criteriaHelper.getResultList();

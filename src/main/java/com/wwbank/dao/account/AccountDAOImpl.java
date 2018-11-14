@@ -30,8 +30,8 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public List<Account> findAllByClientId(Integer id_client) {
-        CriteriaHelper criteriaHelper = new CriteriaHelper<>(getCurrentSession(), Account.class);
-        Predicate predicate = criteriaHelper.createEqualPredicate("id_client", id_client);
+        CriteriaHelper criteriaHelper = new CriteriaHelper(getCurrentSession(), Account.class);
+        Predicate predicate = criteriaHelper.createEqualPredicate("idClient", id_client);
         criteriaHelper.addAndPredicates(predicate);
         return criteriaHelper.getResultList();
     }

@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -18,29 +19,22 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:application.properties"})
-@ComponentScan({"com.wwbank"})
+@ComponentScan(value = "com.wwbank.config")
 public class PersistenceConfig {
 
     @Autowired
     private Environment env;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
         sessionFactory.setPackagesToScan("com.wwbank.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.pass"));
-        return dataSource;
     }
 
     @Bean

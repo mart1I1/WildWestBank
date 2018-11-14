@@ -7,6 +7,9 @@ import com.wwbank.exception.client.ClientAlreadyExistException;
 import com.wwbank.exception.client.ClientNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
@@ -15,17 +18,16 @@ import static org.mockito.Mockito.*;
 
 class ClientServiceImplTest {
 
-    private ClientService clientService;
+    @Mock
     private ClientDAO clientDAO;
+    @InjectMocks
+    private ClientServiceImpl clientService;
 
     private Client defaultClient = new Client(1,"BANK", "Wild West", 25);
 
     @BeforeEach
     void setUp() {
-        clientDAO = mock(ClientDAOImpl.class);
-        ClientServiceImpl service = new ClientServiceImpl();
-        service.setClientDao(clientDAO);
-        clientService = service;
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

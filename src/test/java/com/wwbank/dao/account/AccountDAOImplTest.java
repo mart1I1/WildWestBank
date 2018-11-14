@@ -1,24 +1,25 @@
 package com.wwbank.dao.account;
 
-import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.entity.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("unit-test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
-        classes = {PersistenceConfigTest.class},
+        classes = {PersistenceConfig.class, AccountDAOImpl.class},
         loader = AnnotationConfigContextLoader.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class AccountDAOImplTest {
@@ -34,7 +35,7 @@ class AccountDAOImplTest {
 
     @Test
     void findAllByClientId() {
-        assertEquals(Collections.singletonList(account), accountDAO.findAllByClientId(account.getId_client()));
+        assertEquals(Collections.singletonList(account), accountDAO.findAllByClientId(account.getIdClient()));
     }
 
     @Test
@@ -50,9 +51,9 @@ class AccountDAOImplTest {
     @Test
     void save() {
         Account newAccount = new Account(2,1, 1111.1);
-        assertFalse(accountDAO.findAllByClientId(newAccount.getId_client()).contains(newAccount));
+        assertFalse(accountDAO.findAllByClientId(newAccount.getIdClient()).contains(newAccount));
         accountDAO.save(newAccount);
-        assertTrue(accountDAO.findAllByClientId(newAccount.getId_client()).contains(newAccount));
+        assertTrue(accountDAO.findAllByClientId(newAccount.getIdClient()).contains(newAccount));
     }
 
     @Test

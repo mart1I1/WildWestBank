@@ -1,25 +1,25 @@
 package com.wwbank.dao.transaction;
 
-import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.entity.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.Timestamp;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("unit-test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
-        classes = {PersistenceConfigTest.class},
+        classes = {PersistenceConfig.class, TransactionDAOImpl.class},
         loader = AnnotationConfigContextLoader.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class TransactionDAOImplTest {

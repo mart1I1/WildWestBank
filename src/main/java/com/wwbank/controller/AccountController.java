@@ -48,7 +48,7 @@ public class AccountController {
             result.rejectValue("money", "error.money.notenough");
             return "transferView";
         }
-        return "redirect:/transfer";
+        return "redirect:/accounts/transfer";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

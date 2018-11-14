@@ -14,6 +14,9 @@ import com.wwbank.service.transaction.TransactionService;
 import com.wwbank.service.transaction.TransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 import java.util.zip.DeflaterOutputStream;
@@ -23,11 +26,14 @@ import static org.mockito.Mockito.*;
 
 class AccountServiceImplTest {
 
+    @Mock
     private AccountDAO accountDAO;
+    @Mock
     private ClientService clientService;
-
-    private AccountService accountService;
+    @Mock
     private TransactionService transactionService;
+    @InjectMocks
+    private AccountServiceImpl accountService;
 
     private Client defaultClient = new Client(1,"BANK", "Wild West", 25);
     private Account defaultAccount = new Account(1,1, 99999.0);
@@ -42,16 +48,7 @@ class AccountServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        accountDAO = mock(AccountDAOImpl.class);
-        clientService = mock(ClientServiceImpl.class);
-        transactionService = mock(TransactionServiceImpl.class);
-
-        AccountServiceImpl accountServiceImpl = new AccountServiceImpl();
-        accountServiceImpl.setAccountDAO(accountDAO);
-        accountServiceImpl.setClientService(clientService);
-        accountServiceImpl.setTransactionService(transactionService);
-
-        accountService = accountServiceImpl;
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

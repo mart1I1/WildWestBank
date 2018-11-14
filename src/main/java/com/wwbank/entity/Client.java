@@ -1,5 +1,6 @@
 package com.wwbank.entity;
 
+import com.wwbank.util.Criteriable;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Client")
-public class Client {
+public class Client implements Criteriable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

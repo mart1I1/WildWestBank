@@ -1,6 +1,6 @@
 package com.wwbank.controller;
 
-import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.config.WebConfig;
 import com.wwbank.entity.Transaction;
 import com.wwbank.service.transaction.TransactionService;
@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -34,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {PersistenceConfigTest.class, WebConfig.class},
+@ContextConfiguration(classes = {WebConfig.class},
         loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 class TransactionControllerTest {

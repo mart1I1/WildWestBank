@@ -1,6 +1,6 @@
 package com.wwbank.controller;
 
-import com.wwbank.config.PersistenceConfigTest;
+import com.wwbank.config.PersistenceConfig;
 import com.wwbank.config.WebConfig;
 import com.wwbank.entity.Account;
 import com.wwbank.entity.Client;
@@ -16,24 +16,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.Errors;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //TODO: разобрать с тестированием валидации @Valid
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {PersistenceConfigTest.class, ClientController.class, ExceptionHandlingController.class},
+@ContextConfiguration(classes = {WebConfig.class},
         loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 class ClientControllerTest {

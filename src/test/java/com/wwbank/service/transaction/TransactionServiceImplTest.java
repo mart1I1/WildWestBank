@@ -14,6 +14,9 @@ import com.wwbank.service.client.ClientService;
 import com.wwbank.service.client.ClientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.*;
@@ -24,11 +27,14 @@ import static org.mockito.Mockito.*;
 
 class TransactionServiceImplTest {
 
+    @Mock
     private ClientService clientService;
+    @Mock
     private AccountService accountService;
+    @Mock
     private TransactionDAO transactionDAO;
-
-    private TransactionService transactionService;
+    @InjectMocks
+    private TransactionServiceImpl transactionService;
 
     private Client client1 = new Client(1,"client1", "address1", 1);
     private Client client2 = new Client(2,"client2", "address2", 2);
@@ -45,22 +51,13 @@ class TransactionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        clientService = mock(ClientServiceImpl.class);
-        accountService = mock(AccountServiceImpl.class);
-        transactionDAO = mock(TransactionDAOImpl.class);
+        MockitoAnnotations.initMocks(this);
 
         when(clientService.findByName(client1.getName())).thenReturn(Collections.singletonList(client1));
         when(clientService.findByName(client2.getName())).thenReturn(Collections.singletonList(client2));
         when(accountService.findAllByClientId(client1.getId())).thenReturn(Arrays.asList(account11, account12));
         when(accountService.findAllByClientId(client2.getId())).thenReturn(Collections.singletonList(account31));
         when(transactionDAO.findAll()).thenReturn(Arrays.asList(transaction12, transaction23));
-
-        TransactionServiceImpl transactionServiceImpl = new TransactionServiceImpl();
-        transactionServiceImpl.setAccountService(accountService);
-        transactionServiceImpl.setClientService(clientService);
-        transactionServiceImpl.setTransactionDAO(transactionDAO);
-
-        transactionService = transactionServiceImpl;
     }
 
     @Test
