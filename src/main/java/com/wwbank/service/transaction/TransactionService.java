@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface TransactionService {
 
+    void save(Transaction transaction);
     List<Transaction> findAll();
     List<Transaction> findAllByName(String name);
     List<Transaction> findAllByDate(Date from, Date to);
     List<Transaction> findAllIncludingAccId(Integer accId);
     Transaction findById(Integer id) throws TransactionNotFoundException;
-    void transferMoney(Transaction transaction) throws AccountNotFoundException, AccountNotEnoughMoneyException;
 
 }

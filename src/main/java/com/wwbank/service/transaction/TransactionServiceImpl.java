@@ -42,6 +42,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public void save(Transaction transaction) {
+        transactionDAO.save(transaction);
+    }
+
+    @Override
     public List<Transaction> findAll() {
         return transactionDAO.findAll();
     }
@@ -78,14 +83,5 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionDAO.findById(id).orElseThrow(TransactionNotFoundException::new);
     }
 
-    @Override
-    @Transactional(rollbackOn = {AccountNotFoundException.class, AccountNotEnoughMoneyException.class})
-    public void transferMoney(Transaction transaction)
-            throws AccountNotFoundException, AccountNotEnoughMoneyException {
-        Account accountSender = accountService.findById(transaction.getIdAccSender());
-        Account accountReceiver = accountService.findById(transaction.getIdAccReceiver());
-        accountService.withdrawMoneyById(accountSender.getId(), transaction.getMoney());
-        accountService.putMoneyById(accountReceiver.getId(), transaction.getMoney());
-        transactionDAO.save(transaction);
-    }
+
 }

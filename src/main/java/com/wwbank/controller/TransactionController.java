@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -26,14 +27,7 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public ModelAndView findAllTransactions() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("transactions");
-//        modelAndView.getModel().put("transactions", transactionService.findAll());
-//        return modelAndView;
-//    }
-
+    //TODO: не запоминается дата
     @RequestMapping
     public ModelAndView search(@RequestParam(value = "acc_id", required = false) Integer acc_id,
                                @RequestParam(value = "name", required = false) String name,
@@ -53,13 +47,20 @@ public class TransactionController {
             transactions = transactions.stream().filter(result::contains).collect(Collectors.toList());
         }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("transactions");
+        modelAndView.setViewName("transactionsView");
         modelAndView.getModel().put("transactions", transactions);
         modelAndView.getModel().put("acc_id", acc_id);
         modelAndView.getModel().put("name", name);
-        modelAndView.getModel().put("date_from", date_from);
-        modelAndView.getModel().put("date_to", date_to);
+        modelAndView.getModel().put("date_from", prepareDateForOutput(date_from));
+        modelAndView.getModel().put("date_to", prepareDateForOutput(date_to));
         return modelAndView;
     }
+
+    private String prepareDateForOutput(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return date != null ? simpleDateFormat.format(date) : null;
+    }
+
+
 
 }

@@ -49,25 +49,25 @@ public class ClientController {
                 )
                 .collect(Collectors.toList());
         modelAndView.getModel().put("clientAndBalance", clientAndBalance);
-        modelAndView.setViewName("clients");
+        modelAndView.setViewName("clientsView");
         return modelAndView;
     }
 
     @RequestMapping(value = "/add" , method = RequestMethod.GET)
     public String getAddClient() {
-        return "addClient";
+        return "addClientView";
     }
 
     @RequestMapping(value = "/add" , method = RequestMethod.POST)
     public String addClient(@Valid @ModelAttribute("clientModel") Client client, BindingResult result) {
         try {
             if (result.hasErrors()) {
-                return "addClient";
+                return "addClientView";
             }
             clientService.addClient(client);
         } catch (ClientAlreadyExistException e) {
             result.rejectValue("", "error.client.exist");
-            return "addClient";
+            return "addClientView";
         }
         return "redirect:/clients";
     }
@@ -79,7 +79,7 @@ public class ClientController {
         modelAndView.getModel().put("client", client);
         modelAndView.getModel().put("balance",accountService.findBalanceForClientId(client.getId()));
         modelAndView.getModel().put("accounts", accountService.findAllByClientId(client.getId()));
-        modelAndView.setViewName("clientInfo");
+        modelAndView.setViewName("clientInfoView");
         return modelAndView;
     }
 

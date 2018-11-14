@@ -4,18 +4,19 @@ import com.wwbank.dao.account.AccountDAO;
 import com.wwbank.dao.account.AccountDAOImpl;
 import com.wwbank.entity.Account;
 import com.wwbank.entity.Client;
+import com.wwbank.entity.Transaction;
 import com.wwbank.exception.account.AccountNotEnoughMoneyException;
 import com.wwbank.exception.account.AccountNotFoundException;
 import com.wwbank.exception.client.ClientNotFoundException;
 import com.wwbank.service.client.ClientService;
 import com.wwbank.service.client.ClientServiceImpl;
+import com.wwbank.service.transaction.TransactionService;
+import com.wwbank.service.transaction.TransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.zip.DeflaterOutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,18 +27,29 @@ class AccountServiceImplTest {
     private ClientService clientService;
 
     private AccountService accountService;
+    private TransactionService transactionService;
 
     private Client defaultClient = new Client(1,"BANK", "Wild West", 25);
     private Account defaultAccount = new Account(1,1, 99999.0);
+
+    private Account account11 = new Account(1, 1, 10.0);
+    private Account account12 = new Account(2, 1, 20.0);
+
+    private Date date1 = new Date(2000, 1, 1);
+
+    private Transaction transaction12 = new Transaction(1, 2, date1, 100.0);
+    private Transaction transaction21 = new Transaction(2, 1, date1, 10.0);
 
     @BeforeEach
     void setUp() {
         accountDAO = mock(AccountDAOImpl.class);
         clientService = mock(ClientServiceImpl.class);
+        transactionService = mock(TransactionServiceImpl.class);
 
         AccountServiceImpl accountServiceImpl = new AccountServiceImpl();
         accountServiceImpl.setAccountDAO(accountDAO);
         accountServiceImpl.setClientService(clientService);
+        accountServiceImpl.setTransactionService(transactionService);
 
         accountService = accountServiceImpl;
     }
@@ -137,6 +149,44 @@ class AccountServiceImplTest {
         Double balance = list.stream().mapToDouble(Account::getMoney).sum();
         when(accountDAO.findAllByClientId(defaultClient.getId())).thenReturn(list);
         assertEquals(balance, accountService.findBalanceForClientId(defaultClient.getId()));
+    }
+
+    @Test
+    void transferMoney() throws AccountNotEnoughMoneyException, AccountNotFoundException {
+        Double money11 = account11.getMoney() + transaction21.getMoney();
+        Double money12 = account12.getMoney() - transaction21.getMoney();
+        when(accountDAO.findById(account11.getId())).thenReturn(Optional.ofNullable(account11));
+        when(accountDAO.findById(account12.getId())).thenReturn(Optional.ofNullable(account12));
+
+        accountService.transferMoney(transaction21);
+        verify(accountDAO, times(2)).findById(transaction12.getIdAccSender());
+        verify(accountDAO, times(2)).findById(transaction12.getIdAccReceiver());
+        verify(accountDAO, times(1)).update(account11);
+        verify(accountDAO, times(1)).update(account12);
+        verify(transactionService, times(1)).save(transaction21);
+        assertAll(() -> assertEquals(money11, account11.getMoney()),
+                () -> assertEquals(money12, account12.getMoney()));
+    }
+
+    @Test
+    void transferMoneyAccountNotFound() throws AccountNotFoundException {
+        when(accountDAO.findById(account11.getId())).thenReturn(Optional.empty());
+        assertThrows(AccountNotFoundException.class, () -> accountService.transferMoney(transaction12));
+    }
+
+    @Test
+    void transferMoneyAccountNotFound2() {
+        when(accountDAO.findById(account11.getId())).thenReturn(Optional.ofNullable(account11));
+        when(accountDAO.findById(account12.getId())).thenReturn(Optional.empty());
+        assertThrows(AccountNotFoundException.class, () -> accountService.transferMoney(transaction12));
+    }
+
+    @Test
+    void transferMoneyNotEnough() {
+        when(accountDAO.findById(account11.getId())).thenReturn(Optional.ofNullable(account11));
+        when(accountDAO.findById(account12.getId())).thenReturn(Optional.ofNullable(account12));
+
+        assertThrows(AccountNotEnoughMoneyException.class, () -> accountService.transferMoney(transaction12));
     }
 
 }

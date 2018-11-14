@@ -23,44 +23,30 @@ import java.util.Date;
 @RequestMapping("/accounts")
 public class AccountController {
 
-    private TransactionService transactionService;
     private AccountService accountService;
-    private ClientService clientService;
-
-    @Autowired
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
-    }
 
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    @Autowired
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
     @RequestMapping(value = "/transfer", method = RequestMethod.GET)
-    public ModelAndView transferForm() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("transfer");
-        return modelAndView;
+    public String getTransferMoney() {
+        return "transferView";
     }
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public String transferMoney(@Valid @ModelAttribute("transaction") Transaction transaction, BindingResult result) {
         try {
             if (result.hasErrors())
-                return "transfer";
-            transactionService.transferMoney(transaction);
+                return "transferView";
+            accountService.transferMoney(transaction);
         } catch (AccountNotFoundException e) {
             result.rejectValue("", "error.account.id");
-            return "transfer";
+            return "transferView";
         } catch (AccountNotEnoughMoneyException e) {
             result.rejectValue("money", "error.money.notenough");
-            return "transfer";
+            return "transferView";
         }
         return "redirect:/transfer";
     }

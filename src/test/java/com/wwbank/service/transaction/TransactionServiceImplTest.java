@@ -101,39 +101,4 @@ class TransactionServiceImplTest {
         when(transactionDAO.findById(transaction12.getId())).thenReturn(Optional.empty());
         assertThrows(TransactionNotFoundException.class, () -> transactionService.findById(transaction12.getId()));
     }
-
-    @Test
-    void transferMoney() throws AccountNotEnoughMoneyException, AccountNotFoundException {
-        when(accountService.findById(account11.getId())).thenReturn(account11);
-        when(accountService.findById(account12.getId())).thenReturn(account12);
-
-        transactionService.transferMoney(transaction12);
-        verify(accountService, times(1)).findById(transaction12.getIdAccSender());
-        verify(accountService, times(1)).findById(transaction12.getIdAccReceiver());
-        verify(accountService, times(1)).withdrawMoneyById(account11.getId(), transaction12.getMoney());
-        verify(accountService, times(1)).putMoneyById(account12.getId(), transaction12.getMoney());
-        verify(transactionDAO, times(1)).save(transaction12);
-    }
-
-    @Test
-    void transferMoneyAccountNotFound() throws AccountNotFoundException {
-        when(accountService.findById(account11.getId())).thenThrow(AccountNotFoundException.class);
-        assertThrows(AccountNotFoundException.class, () -> transactionService.transferMoney(transaction12));
-    }
-
-    @Test
-    void transferMoneyAccountNotFound2() throws AccountNotFoundException {
-        when(accountService.findById(account11.getId())).thenReturn(account11);
-        when(accountService.findById(account12.getId())).thenThrow(AccountNotFoundException.class);
-        assertThrows(AccountNotFoundException.class, () -> transactionService.transferMoney(transaction12));
-    }
-
-    @Test
-    void transferMoneyNotEnough() throws AccountNotFoundException, AccountNotEnoughMoneyException {
-        when(accountService.findById(account11.getId())).thenReturn(account11);
-        when(accountService.findById(account12.getId())).thenReturn(account12);
-        doThrow(AccountNotEnoughMoneyException.class).when(accountService).withdrawMoneyById(account11.getId(), account11.getMoney());
-
-        assertThrows(AccountNotEnoughMoneyException.class, () -> transactionService.transferMoney(transaction12));
-    }
 }
