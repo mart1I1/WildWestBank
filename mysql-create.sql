@@ -18,13 +18,25 @@ create table Transaction(
     date TIMESTAMP not null,
     money DOUBLE not null);
 
-insert into Client(
+insert into Client values(
     NULL,
     "BANK",
     "Wild West",
     25);
 
-insert into Account(
+insert into Account values(
     NULL,
     1,
     99999);
+
+insert into Client values(
+    NULL,
+    "Fedor",
+    "Kaliningrad",
+    22);
+
+insert into Account values(
+    NULL,
+    2,
+    0);
+
